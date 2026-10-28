@@ -1,0 +1,24 @@
+services:
+  biblioteca-database:
+    image: postgres:18.3
+
+    environment:
+      POSTGRES_DB: bibliotecadb
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+
+    ports:
+      - "5434:5432"
+
+    volumes:
+      - biblioteca_data:/var/lib/postgresql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d bibliotecadb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  biblioteca_data:
